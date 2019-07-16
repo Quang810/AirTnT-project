@@ -1,0 +1,439 @@
+
+Sequence SEQ created.
+
+
+Sequence SEQ dropped.
+
+
+Table ACTIVITY created.
+
+
+Table ACTIVITY altered.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table ACTIVITY altered.
+
+
+Table ACTIVITY_SPECIAL created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table ACTIVITY_SPECIAL altered.
+
+
+Table BOOKING created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table BOOKING altered.
+
+
+Table CHARGE created.
+
+
+Table CHARGE altered.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table CHARGE altered.
+
+
+Table COST_CENTRE created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table COST_CENTRE altered.
+
+
+Table CUSTOMER created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table CUSTOMER altered.
+
+
+Table HOUSEKEEPER created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table HOUSEKEEPER altered.
+
+
+Table HOUSEKEEPER_ASSIGNMENT created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table HOUSEKEEPER_ASSIGNMENT altered.
+
+
+Table HOUSESHARE created.
+
+
+Error starting at line : 224 in command -
+ALTER TABLE houseshare ADD CONSTRAINT chk_house_number_rooms CHECK ( house_number_rooms
+
+>= 1 )
+Error report -
+ORA-00904: "HOUSE_NUMBER_ROOMS": invalid identifier
+00904. 00000 -  "%s: invalid identifier"
+*Cause:    
+*Action:
+
+Table HOUSESHARE altered.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table HOUSESHARE altered.
+
+
+Table ITEM created.
+
+
+Table ITEM altered.
+
+
+Table ITEM altered.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table ITEM altered.
+
+
+Table MOVING_RECORD created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table MOVING_RECORD altered.
+
+
+Table PERFORMANCE created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table PERFORMANCE altered.
+
+
+Table POLICE_CHECK created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table POLICE_CHECK altered.
+
+
+Table PRESCRIPTION created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table PRESCRIPTION altered.
+
+
+Table ROOM created.
+
+
+Table ROOM altered.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table ROOM altered.
+
+
+Table ROOM_PHONE_NUMBER created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table ROOM_PHONE_NUMBER altered.
+
+
+Table SPECIALISATION created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table SPECIALISATION altered.
+
+
+Table TOUR_GUIDE created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table TOUR_GUIDE altered.
+
+
+Table TOUR_GUIDE_SPECIAL created.
+
+
+Comment created.
+
+
+Comment created.
+
+
+Table TOUR_GUIDE_SPECIAL altered.
+
+
+Table ACTIVITY_SPECIAL altered.
+
+
+Table CHARGE altered.
+
+
+Table PERFORMANCE altered.
+
+
+Table PRESCRIPTION altered.
+
+
+Table MOVING_RECORD altered.
+
+
+Table PRESCRIPTION altered.
+
+
+Table ITEM altered.
+
+
+Table CHARGE altered.
+
+
+Table BOOKING altered.
+
+
+Table HOUSEKEEPER_ASSIGNMENT altered.
+
+
+Table POLICE_CHECK altered.
+
+
+Table HOUSEKEEPER_ASSIGNMENT altered.
+
+
+Table MOVING_RECORD altered.
+
+
+Table ROOM altered.
+
+
+Table ACTIVITY_SPECIAL altered.
+
+
+Table CHARGE altered.
+
+
+Table ROOM_PHONE_NUMBER altered.
+
+
+Table TOUR_GUIDE_SPECIAL altered.
+
+
+Table BOOKING altered.
+
+
+Table PERFORMANCE altered.
+
+
+Table PRESCRIPTION altered.
+
+
+Table TOUR_GUIDE_SPECIAL altered.
+

@@ -1,0 +1,712 @@
+-- FIT DATABASE UNDERGRADUATE UNITS ASSIGNMENT 2 / S1 / 2019
+-- FILL IN THE FOLLOWING:
+--Unit Code: FIT3171
+--Student ID: 29628342
+--Student Full Name: Minh Quang Hoang   
+--Student email: mhoa0003@student.monash.edu    
+--Tutor Name: 
+
+/*  --- COMMENTS TO YOUR MARKER --------
+Task 1.1: The missing tables are reserve table, loan table, and vehicle unit table
+
+*Create constraint for vehicle_unit table:
+garage_code is the foreign key linked to garage table
+vehicle_insurance_id is the foreign key linked to vehicle_detail table
+
+*Create constraint for reserve table:
+vunit_id, garage code are both foreign key linked to vehicle_unit table.  
+renter_no is the foreign key linked to renter table
+
+*Create constraint for loan table:
+vunit_id, garage code are both foreign key linked to vehicle_unit table.  
+renter_no is the foreign key linked to renter table
+
+Task 1.2: drop set of sequences:
+Since there are constraint which link tables together. In order to drop successfully, we have to drop tables in order
+- First we drop the two table loan table, and reserve table which have foreign keys link to vehicle_unit table, and renter table
+
+- Second, we drop the vehicle_unit table, now free of constraint
+
+- Third, we drop the table rentor  now free of constraint from loan table and reserve table. 
+This table also has foreign key linked to garage_code.
+
+- Fourth, we drop table vendor_vehicle which has foreign key linked to vendor table, and vehicle_detail table
+
+- Fifth, we drop table vehicle_feature which has foreign key linked to feature table, and vehicle_detail table
+
+- Sixth, we can now drop feature table, which is free from the constraint with vehicle_feature table
+
+- Seventh, we can drop vendor table, which is free from the constraint with vendor_vehicle table
+
+- Eighth, we can now drop vehicle_detail table, which is free from the constraint with vehicle_feature table, vendor_vehicle
+and vehicle_unit table. Also it contains the foreign key which link to manufacturer table
+
+- Ninth, we can now drop garage table, which has the foreign key link to manager table
+
+- Tenth, we can drop manufacturer table, which is now free from the constraint with vehicle_detail table
+
+- Finally, we can drop manager table, which is now the only table left.
+
+
+
+
+*/
+
+--Q1
+/*
+TASK 1.1 BELOW
+
+*/
+---------Reserve_table------------
+
+
+CREATE TABLE reserve (
+    garage_code                 NUMBER (4) not null,
+    vunit_id                    NUMBER (6) not null,
+    reserve_date_time_placed    DATE not null,
+    renter_no                   NUMBER (6) not null
+);
+
+Comment on column reserve.garage_code is
+    'Garage number';
+    
+Comment on column reserve.vunit_id is
+    'Vehicle unit number';
+    
+Comment on column reserve.reserve_date_time_placed is
+    'Date and time reserve was placed';
+    
+Comment on column reserve.renter_no is
+    'Number of renter who reserve the vehicle';
+
+ALTER TABLE reserve ADD CONSTRAINT reserve_pk PRIMARY KEY (garage_code, vunit_id, reserve_date_time_placed);
+
+
+-------------Vehicle unit table------------
+Create table vehicle_unit (
+    garage_code             number (2) not null,
+    vunit_id                number (6) not null,
+    vunit_purchase_price    number (7,2) not null,
+    vunit_exhibition_flag   char (1) not null,
+    vehicle_insurance_id    varchar (20) not null,
+    vunit_rego              varchar (8) not null
+);
+
+comment on column vehicle_unit.garage_code is
+    'Garage number';
+    
+comment on column vehicle_unit.vunit_id is
+    'Vehicle unit identifier - identifies a vehicle unit as determined by garage';
+    
+comment on column vehicle_unit.vunit_purchase_price is
+    'Vehicle unit purchase price';
+    
+comment on column vehicle_unit.vunit_exhibition_flag is
+    'Whether vehicle is for exhibition or not';
+
+comment on column vehicle_unit.vehicle_insurance_id is
+    'Vehicle insurance identifier - identifies a vehicle type as determined by insurer';
+    
+comment on column vehicle_unit.vunit_rego is
+    'registration issued by gorvernment eg: XYZ123';
+
+alter table vehicle_unit add constraint vehicle_unit_pk primary key (garage_code, vunit_id);
+
+ALTER TABLE vehicle_unit
+    ADD CONSTRAINT v_exflag_chk CHECK ( vunit_exhibition_flag IN (
+        'Y',
+        'N'
+    ) );
+
+alter table vehicle_unit add constraint vunit_rego_uq unique (vunit_rego);
+
+
+-------------loan table-----------------
+create table loan (
+    garage_code             number (2) not null,
+    vunit_id                number (6) not null,
+    loan_date_time          date not null,
+    loan_due_date           date not null,
+    loan_actual_return_date date,
+    renter_no               number (6) not null
+);
+
+comment on column loan.garage_code is
+    'Garage number';
+    
+comment on column loan.vunit_id is
+    'Vehicle unit identifier - identifies a vehicle unit as determined by garage';
+
+comment on column loan.loan_date_time is
+    'Date when renter loan the vehicle';
+    
+comment on column loan.loan_due_date is
+    'Return date from the day vehicle was rented - each vehicle can be loaned for exact 1 week';
+    
+comment on column loan.loan_actual_return_date is
+    'Actual return date when a vehicle unit is returned from a loan';
+    
+comment on column loan.renter_no is
+    'Renter identifier';
+
+
+alter table loan add constraint loan_pk primary key (garage_code, vunit_id, loan_date_time);
+
+    
+
+
+------Alter FKS-----
+
+alter table vehicle_unit
+    add constraint garage_vu foreign key (garage_code)
+    references garage (garage_code);
+alter table vehicle_unit
+    add constraint vehicledetail_vu foreign key (vehicle_insurance_id)
+    references vehicle_detail (vehicle_insurance_id);
+    
+alter table reserve
+    add constraint vehicleunit_r foreign key (vunit_id, garage_code)
+    references vehicle_unit (vunit_id, garage_code);  
+alter table reserve
+    add constraint renter_r foreign key (renter_no)
+    references renter (renter_no);
+    
+alter table loan
+    add constraint vehicle_loan foreign key (garage_code, vunit_id)
+    references vehicle_unit (garage_code, vunit_id);
+alter table loan
+    add constraint renter_loan foreign key (renter_no)
+    references renter (renter_no);
+
+
+
+
+
+     
+/*
+TASK 1.2 BELOW
+ 
+*/
+
+drop table loan purge;
+
+drop table reserve purge;
+
+drop table vehicle_unit purge;
+
+drop table renter purge;
+
+drop table vendor_vehicle purge;
+
+drop table vehicle_feature purge;
+
+drop table feature purge;
+
+drop table vendor purge;
+
+drop table vehicle_detail purge;
+
+drop table garage purge;
+
+drop table manufacturer purge;
+
+drop table manager purge;
+
+drop table return_vehicle purge;
+
+drop table specialization purge;
+
+
+
+
+
+
+
+
+
+--Q2
+/*
+TASK 2.1 BELOW
+*First insert vehicle into vehicle details
+Majority of information have been given, however we have to retreive the manufacturer_id from manufacturer table
+by using manufacturer name
+We assume that engine capacity is 2.4 for this vehicle
+
+* Second, we insert info into vendor_vehicle table (Adding insurance id match with vendor code)
+
+* Third, we add into vehicle_feature table the features which potential customers interested 
+(by finding feature id match with the description)
+
+*Finally, we add the vehicle into vehicle_unit table. 
+We need to find garage_code match with garage_name and contact_email of each garage
+
+*/
+insert into vehicle_detail values (
+'sports-ute-449-12',
+'Toyota Hilux SR Manual 4x2 MY14',
+'M',
+200.00,
+to_date('2018', 'YYYY'),
+2.4,
+(select manufacturer.manufacturer_id 
+from manufacturer
+where manufacturer_name = 'Toyota')
+);
+
+insert into vendor_vehicle values(
+'sports-ute-449-12',
+1
+);
+
+insert into vendor_vehicle values(
+'sports-ute-449-12',
+2
+);
+
+insert into vehicle_feature values(
+(select feature.feature_code 
+from feature
+where feature_details = 'metallic silver'),
+'sports-ute-449-12'
+);
+
+insert into vehicle_feature values(
+(select feature.feature_code 
+from feature
+where feature_details = 'aluminium tray'),
+'sports-ute-449-12'
+);
+
+insert into vehicle_unit values(
+(select garage.garage_code 
+from garage
+where garage_name = 'Caulfield VIC'
+and garage_email = 'caulfield@rdbms.example.com'),
+000001, 
+50000.00,
+'N',
+'sports-ute-449-12',
+'RD3161'
+);
+
+insert into vehicle_unit values(
+(select garage.garage_code 
+from garage
+where garage_name = 'South Yarra VIC'
+and garage_email = 'southy@rdbms.example.com'),
+000002, 
+50000.00,
+'N',
+'sports-ute-449-12',
+'RD3141'
+);
+
+insert into vehicle_unit values(
+(select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC'
+and garage_email = 'melbournec@rdbms.example.com'),
+000003, 
+50000.00,
+'N',
+'sports-ute-449-12',
+'RD3000'
+);
+
+commit;
+    
+    
+    
+
+
+
+
+
+
+
+
+
+/*
+TASK 2.2 BELOW
+create renter_no as sequence, start with 10, increment by 1
+*/
+
+create sequence renter_renter_no_SEQ start with 10 increment by 1;
+
+
+
+
+
+
+
+
+/*
+TASK 2.3 BELOW
+drop the renter sequence
+*/
+
+drop sequence renter_renter_no_SEQ;
+
+
+
+
+
+
+
+
+--Q3
+/*
+TASK 3.1 BELOW
+Insert renter information into renter table
+The address, zip code, email, and phone number of the renter is hypothetical information
+The garage code matches with the renter'' garage home, which is "Caufield VIC"
+*/
+
+insert into renter values(
+renter_renter_no_SEQ.nextval, 
+'Van',
+'DIESEL',
+'25 Caufield St',
+'Caufield',
+'3162',
+'fat&furious@hollywood.example',
+'0452789777',
+(select garage.garage_code 
+from garage
+where garage_name = 'Caulfield VIC')
+);
+
+commit;
+
+
+
+
+
+
+
+/*
+TASK 3.2 BELOW
+set date format so the data shows month and date, including the time
+insert info into the reserve table to reflect the transaction
+The garage code is retrieved from garage table by garage_name as condition
+The vehicle unit is retrieved from vehicle_unit table by vehicle_insurance_id as condition
+The date is set to 4pm of May 4
+*/
+
+alter session set nls_date_format = 'dd/MON/yyyy hh24:mi:ss';
+
+insert into reserve values(
+(select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC'),
+(select vehicle_unit.vunit_id
+from vehicle_unit
+where vehicle_insurance_id = 'sports-ute-449-12'
+and garage_code = (select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC')),
+to_date('2019/05/04 16:00:02', 'yyyy/mm/dd hh24:mi:ss'),
+(select renter.renter_no
+from renter
+where renter_fname = 'Van'
+and renter_lname = 'DIESEL')
+);
+
+commit;
+
+
+
+
+
+
+
+
+/*
+TASK 3.3 BELOW
+Insert data into loan table
+Retrieve garage_code from the garage table using garage_name as Melbourne Central
+The due date is 1 week from the loan date
+The actual due date is unknown, therefore null value
+*/
+
+insert into loan values(
+(select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC'),
+(select vehicle_unit.vunit_id
+from vehicle_unit
+where vehicle_insurance_id = 'sports-ute-449-12'
+and garage_code = (select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC')),
+to_date('2019/05/11 14:00:00', 'yyyy/mm/dd hh24:mi:ss'),
+to_date('2019/05/18 14:00:02', 'yyyy/mm/dd hh24:mi:ss'),
+null,
+(select renter.renter_no
+from renter
+where renter_fname = 'Van'
+and renter_lname = 'DIESEL')
+);
+
+
+
+commit;
+
+
+
+  
+/*
+TASK 3.4 BELOW
+Since renew rental is treated as new loan, we will insert suitable data again into loan table
+garage_code is retrieved from garage table with garage_name as condition
+vunit_id is retrieved from vehicle_unit table with vehicle_insurance_id as condition. In condition, strengthen the condition
+we match the vehicle_insurance_id with garage_code retrieve from garage table
+The due date is May 18, and the renter renew at the same date. So the new due date will be 1 week from May 18 (May 25)
+
+Since we know the actual return date of the vehicle now, we need to update the first transaction
+set the loan_actual_return_date of the vehicle to May 18
+*/
+
+insert into loan values(
+(select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC'),
+(select vehicle_unit.vunit_id
+from vehicle_unit
+where vehicle_insurance_id = 'sports-ute-449-12'
+and garage_code = (select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC')),
+to_date('2019/05/18 14:00:00', 'yyyy/mm/dd hh24:mi:ss'),
+to_date('2019/05/25 14:00:00', 'yyyy/mm/dd hh24:mi:ss'),
+null,
+(select renter.renter_no
+from renter
+where renter_fname = 'Van'
+and renter_lname = 'DIESEL')
+);
+
+update loan
+set loan_actual_return_date = to_date('2019/05/18 14:00:00', 'yyyy/mm/dd hh24:mi:ss')
+where garage_code = (select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC') and
+vunit_id = (select vehicle_unit.vunit_id
+from vehicle_unit
+where vehicle_insurance_id = 'sports-ute-449-12'
+and garage_code = (select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC')) and
+loan_date_time = to_date('2019/05/11 14:00:00', 'yyyy/mm/dd hh24:mi:ss');
+
+commit;
+
+
+
+
+
+--Q4
+/*
+TASK 4.1 BELOW
+Add column vehicle_condition to reflect the change of data
+update vehicle_unit table and set condition as G for all the units
+add constraint not_null for column vehicle_condition for vehicle_unit table (The value cannot be left empty)
+add constraint vehicle_conchk for column vehicle_condition of vehicle_unit table
+*/
+
+alter table vehicle_unit
+    add (vehicle_condition char(1));
+    
+update vehicle_unit
+    set vehicle_condition = 'G';
+
+alter table vehicle_unit
+    modify (vehicle_condition not null);
+    
+comment on column vehicle_unit.vehicle_condition is
+    'M for maintainance, G for good, W for written-off';
+
+alter table vehicle_unit
+    add constraint vehicle_conchk check (vehicle_condition in (
+    'M',
+    'G',
+    'W'
+    ) );
+    
+commit;
+
+
+
+
+
+
+
+
+
+
+/*
+TASK 4.2 BELOW
+Create a bridging table return_vehicle between vehicle_unit table and renter table
+The table has garage_code, vunit_id, and return_date_time as primary key
+Garage_code, and vunit_id are the foreign key which links to vehicle_unit table
+renter_no is the foreign key which links to renter table
+Insert new changes into return_vehicle table. Since we only have one rental with actual return date from Van Diesel
+we use that info to insert into the new table.
+*/
+
+create table return_vehicle (
+    garage_code         number (2) not null,
+    vunit_id            number (6) not null,
+    return_date_time    date not null,
+    renter_no           number (6) not null
+);
+
+comment on column return_vehicle.garage_code is
+    'Garage number';
+    
+comment on column return_vehicle.vunit_id is
+    'Vehicle unit identifier - identifies a vehicle unit as determined by garage';
+
+comment on column return_vehicle.return_date_time is
+    'Date when renter actually return the vehicle';
+    
+comment on column return_vehicle.renter_no is
+    'Renter identifier';
+    
+alter table return_vehicle add constraint return_vehicle_pk primary key (garage_code, vunit_id, return_date_time);
+
+alter table return_vehicle
+    add constraint vehicle_return foreign key (garage_code, vunit_id)
+    references vehicle_unit (garage_code, vunit_id);
+alter table return_vehicle
+    add constraint renter_return foreign key (renter_no)
+    references renter (renter_no);
+    
+insert into return_vehicle values(
+(select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC'),
+(select vehicle_unit.vunit_id
+from vehicle_unit
+where vehicle_insurance_id = 'sports-ute-449-12'
+and garage_code = (select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC')),
+to_date('2019/05/25 14:00:00', 'yyyy/mm/dd hh24:mi:ss'),
+(select renter.renter_no
+from renter
+where renter_fname = 'Van'
+and renter_lname = 'DIESEL')
+);
+
+commit;
+
+
+/*
+TASK 4.3 BELOW
+Create bridging table specialization which connect manager table and garage table
+A manager can hadle no garage, or mutiple garages. But each specialzation case can only refer to one manager 
+Hence the ralationship between manager and specialization is 1:M
+Each garage may have many special collection. But each type of collection refer to only one garage
+Hence the relationship between garage and specialiazation is 1:M
+garage_code, man_id, and special_collection are primary key of the table
+garage_code is the foreign key from garage table
+man_id is the foreign key from the manager table
+add special_colchk for column special_consideration column of specialization table
+insert into specialzation table new values to reflect the changes
+garage_code can be retrieved by using the garage_name from garage table
+*/
+
+create table specialization (
+    garage_code         number (2) not null,
+    man_id              number (2) not null,
+    special_collection  char (1) not null
+);
+
+alter table specialization add constraint special_pk primary key (garage_code, man_id, special_collection);
+
+alter table specialization 
+    add constraint special_colchk check (special_collection in (
+    'B',
+    'M',
+    'S',
+    'F'
+    ) );
+    
+comment on column specialization.garage_code is
+    'Garage number';
+
+comment on column specialization.man_id is
+    'Managers assigned identifier';
+    
+comment on column specialization.special_collection is
+    'Given collection which manager manages - B for Bike, M for Motorbike, S for Sportcar, F for Full ';
+    
+alter table specialization
+    add constraint garage_special foreign key (garage_code)
+    references garage (garage_code);
+alter table specialization
+    add constraint manager_special foreign key (man_id)
+    references manager (man_id);
+
+-----------Insert data----------
+insert into specialization values (
+    (select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC'
+and garage_email = 'melbournec@rdbms.example.com'),
+    1,
+    'S'
+);
+
+insert into specialization values (
+    (select garage.garage_code 
+from garage
+where garage_name = 'Caulfield VIC'
+and garage_email = 'caulfield@rdbms.example.com'),
+    1,
+    'F'
+);
+
+insert into specialization values (
+    (select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC'
+and garage_email = 'melbournec@rdbms.example.com'),
+    1,
+    'B'
+);
+
+insert into specialization values (
+    (select garage.garage_code 
+from garage
+where garage_name = 'Melbourne Central VIC'
+and garage_email = 'melbournec@rdbms.example.com'),
+    1,
+    'M'
+);
+
+insert into specialization values (
+    (select garage.garage_code 
+from garage
+where garage_name = 'South Yarra VIC'
+and garage_email = 'southy@rdbms.example.com'),
+    1,
+    'F'
+);
+
+
+
+
+commit;
+
+
+
+
+
+
+
+
+
+
+

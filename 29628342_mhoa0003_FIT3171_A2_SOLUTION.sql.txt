@@ -1,10 +1,5 @@
--- FIT DATABASE UNDERGRADUATE UNITS ASSIGNMENT 2 / S1 / 2019
--- FILL IN THE FOLLOWING:
---Unit Code: FIT3171
---Student ID: 29628342
+
 --Student Full Name: Minh Quang Hoang   
---Student email: mhoa0003@student.monash.edu    
---Tutor Name: 
 
 /*  --- COMMENTS TO YOUR MARKER --------
 Task 1.1: The missing tables are reserve table, loan table, and vehicle unit table

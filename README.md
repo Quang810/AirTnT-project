@@ -1,4 +1,4 @@
-# FIT3171-projects
+# AirTnT project
 Scenario:
 After graduating, you are approached by a startup company which wants to compete with AirBnB in the accommodation and tourism sector. This startup, AirTnT -- short for "AirBnB, tourism and technology" -- intends to provide a more personalised experience compared to AirBnB, while having lower cost than traditional hotels and travel agencies. In the concept of the 'gig economy', AirTnT seeks to engage freelance tour guides and house-sharers.
 AirTnT has customers who are identified by a unique customer id. When a customer checks in to an AirTnT facility (i.e. house-share), AirTnT records the customer's first and last names, address, date of birth, current mobile number, one for identity verification^>, one , and emergency contact number (if they are not already on the system). They also record the date and time of check in. The system needs to maintain a record of all check ins for a particular customer. When a customer checks out, the date and time of their departure for this holiday is recorded.
